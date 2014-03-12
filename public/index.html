@@ -22,12 +22,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">AngularChat</a>
+        <a class="navbar-brand" href="#" ng-click="about()">AngularChat</a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="#" ng-click="about()">About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li ng-cloak><p class="navbar-text online" ng-if='status === "online"'>{{ status }}</p><p class="navbar-text offline" ng-if='status === "offline"'>{{ status }}</p></li>
@@ -108,8 +108,23 @@
   </div>
 </div>
 
+<!-- about modal -->
+<script type="text/ng-template" id="aboutModal" />
+      <div class="modal-header">
+          <h3>About AngularChat</h3>
+      </div>
+      <div class="modal-body">
+        <p>Hello, this is the about page</p>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="cancel()">Cancel</button>
+      </div>
+   </div>
+  </script>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="components/angular/angular.js"></script>
+<script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="components/underscore/underscore.js"></script>
 <script src="components/jquery/jquery.js"></script>
 <script src="components/bootstrap/dist/js/bootstrap.js"></script>

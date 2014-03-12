@@ -1,6 +1,6 @@
 'use strict';
 
-function ChatAppCtrl($scope, $q, socket, useragent, geolocation) {
+function ChatAppCtrl($scope, $q, $modal, socket, useragent, geolocation) {
   $scope.peopleCount = 0;
   $scope.messages = [];
   $scope.user = {}; //holds information about the current user
@@ -12,6 +12,23 @@ function ChatAppCtrl($scope, $q, socket, useragent, geolocation) {
   $scope.joined = false;
   var typing = false;
   var timeout  = undefined;
+
+  /* ABOUT PAGE */
+  $scope.about = function() {
+    var modalInstance = $modal.open({
+      templateUrl: 'aboutModal',
+      controller: aboutModalCtrl
+    });
+  };
+
+  var aboutModalCtrl = function($scope, $modalInstance) {
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  };
+};
+/* ABOUT PAGE END */
+
+
 
   $scope.setUsername = function(suggestedUsername) {
     $scope.username = suggestedUsername;
