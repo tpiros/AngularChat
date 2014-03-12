@@ -1,0 +1,100 @@
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display:none !important
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+#footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+.online {
+  background-color: #43ac6a;
+  border-color: #3c9a5f;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 0;
+  padding: 2px 16px;
+}
+
+.offline {
+  background-color: #f04124;
+  border-color: #ea2f10;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 0;
+  padding: 2px 16px;
+}
+
+#messages {
+  overflow-y: scroll;
+  height: 200px;
+  width: 800px;
+  word-wrap: break-word;
+  min-height: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background-color: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+#messages ul {
+  margin: 0;
+  padding-left: 5px;
+}
+#messages li {
+  padding: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+.dark {
+  background-color: #f1f1f1;
+}
+
+#errors {
+  padding-top: 50px;
+  padding-left: 15px;
+}
