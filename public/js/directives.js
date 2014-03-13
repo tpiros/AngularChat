@@ -24,9 +24,9 @@ app.directive('onBlur', function() {
 
 app.directive('autoscroll', function () {
   return function(scope, element, attrs) {
-        var pos = element[0].parentNode.parentNode.scrollHeight;
-        $(element).parent().parent().animate({
-            scrollTop : pos
-        }, 1000);
+    var pos = element[0].parentNode.parentNode.scrollHeight;
+    $(element).parent().parent().animate({
+      scrollTop : pos
+    }, 1000);
   }
 });

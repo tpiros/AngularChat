@@ -1,15 +1,15 @@
 module.exports = function(server) {
   var uuid = require('node-uuid')
   _ = require('underscore')._
-  , Room = require('./room')
+  , Room = require('./utils/room')
   , people = {}
   , rooms = {}
   , chatHistory = {}
   , chatHistoryCount = 10
   , sockets = []
   , io = require('socket.io').listen(server)
-  , utils = require('./utils')
-  , purgatory = require('./purge');
+  , utils = require('./utils/utils')
+  , purgatory = require('./utils/purge');
   io.set('log level', 1);
 
   io.sockets.on('connection', function (socket) {
@@ -63,6 +63,7 @@ module.exports = function(server) {
         if (data.name.length !== 0) {
           people[socket.id] = {name: data.name};
           people[socket.id].inroom = null; //setup 'default' room value
+          people[socket.id].owns = null;
           totalPeopleOnline = _.size(people);
           totalRooms = _.size(rooms);
           utils.sendToAllConnectedClients(io, 'updateRoomsCount', {count: totalRooms});
@@ -76,7 +77,7 @@ module.exports = function(server) {
       }
     });
 
-    socket.on('userDetails', function(data) {
+socket.on('userDetails', function(data) {
       //update the people object with further user details
       var countryCode = data.countrycode.toLowerCase();
       people[socket.id].countrycode = countryCode;
@@ -85,52 +86,52 @@ module.exports = function(server) {
       utils.sendToSelf(socket, 'sendUserDetail', people[socket.id]);
     });
 
-    socket.on('typing', function(data) {
-      if (typeof people[socket.id] !== 'undefined') {
-        utils.sendToAllClientsInRoom(io, socket.room, 'isTyping', {isTyping: data, person: people[socket.id].name});
-      }
-    });
+socket.on('typing', function(data) {
+  if (typeof people[socket.id] !== 'undefined') {
+    utils.sendToAllClientsInRoom(io, socket.room, 'isTyping', {isTyping: data, person: people[socket.id].name});
+  }
+});
 
-    socket.on('send', function(data) {
-      if (typeof people[socket.id] === 'undefined') {
-        utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You need a name first, please.'});
-        } else {
-        if (io.sockets.manager.roomClients[socket.id]['/'+socket.room]) {
-          if (_.size(chatHistory[socket.room]) > chatHistoryCount) {
-            chatHistory[socket.room].splice(0,1);
-          } else {
-            chatHistory[socket.room].push(data);
-          }
-          utils.sendToAllClientsInRoom(io, socket.room, 'sendChatMessage', data);
-        } else {
-          utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'Please connect to a room'});
-        }
+socket.on('send', function(data) {
+  if (typeof people[socket.id] === 'undefined') {
+    utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You need a name first, please.'});
+  } else {
+    if (io.sockets.manager.roomClients[socket.id]['/'+socket.room]) {
+      if (_.size(chatHistory[socket.room]) > chatHistoryCount) {
+        chatHistory[socket.room].splice(0,1);
+      } else {
+        chatHistory[socket.room].push(data);
       }
-    });
+      utils.sendToAllClientsInRoom(io, socket.room, 'sendChatMessage', data);
+    } else {
+      utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'Please connect to a room'});
+    }
+  }
+});
 
-    socket.on('createRoom', function(data) {
-      var flag = false;
-      if (typeof people[socket.id] === 'undefined') {
-        utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You need a name first, please.'});
+socket.on('createRoom', function(data) {
+  var flag = false;
+  if (typeof people[socket.id] === 'undefined') {
+    utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You need a name first, please.'});
+    flag = true;
+  } else {
+    var exists = false;
+    _.find(rooms, function(k, v) {
+      if (k.name.toLowerCase() === data.toLowerCase())
+        return exists = true;
+    });
+    if (!exists) {
+      if (people[socket.id].owns !== null && !flag) {
+        utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You are already an owner of a room.'});
         flag = true;
-        } else {
-        var exists = false;
-        _.find(rooms, function(k, v) {
-          if (k.name.toLowerCase() === data.toLowerCase())
-            return exists = true;
-        });
-        if (!exists) {
-          if (typeof people[socket.id].owns !== 'undefined' && !flag) {
-            utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You are already an owner of a room.'});
-            flag = true;
-          }
-          if (people[socket.id].inroom !== null && !flag) {
-            utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You are already in a room.'});
-            flag = true;
-          }
-          if (!flag) {
-            var roomName = data;
-              if (roomName.length !== 0) {
+      }
+      if (people[socket.id].inroom !== null && !flag) {
+        utils.sendToSelf(socket, 'sendChatMessage', {name: 'ChatBot', message: 'You are already in a room.'});
+        flag = true;
+      }
+      if (!flag) {
+        var roomName = data;
+        if (roomName.length !== 0) {
               var uniqueRoomID = uuid.v4() //guarantees uniquness of room
               , room = new Room(roomName, uniqueRoomID, socket.id);
               people[socket.id].owns = uniqueRoomID; //set ownership of room
@@ -174,6 +175,7 @@ socket.on('joinRoom', function(id) {
       socket.join(socket.room);
       roomToJoin.addPerson(socket.id);
       people[socket.id].inroom = id;
+      people[socket.id].roomname = roomToJoin.name;
       utils.sendToAllConnectedClients(io, 'updateUserDetail', people);
       utils.sendToSelf(socket, 'sendUserDetail', people[socket.id]);
       if (chatHistory[socket.room].length === 0) {

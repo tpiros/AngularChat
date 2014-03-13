@@ -7,29 +7,20 @@
   display:none !important
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
 #footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 60px;
   background-color: #f5f5f5;
 }
-
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 
 body > .container {
   padding: 60px 15px 0;
@@ -68,7 +59,6 @@ code {
 #messages {
   overflow-y: scroll;
   height: 200px;
-  width: 800px;
   word-wrap: break-word;
   min-height: 20px;
   margin-bottom: 20px;
@@ -97,4 +87,18 @@ code {
 #errors {
   padding-top: 50px;
   padding-left: 15px;
+}
+
+#sidebar {
+  margin-top: 20px;
+}
+
+#createroom {
+  margin-bottom: 5px;
+}
+
+.white {
+  margin: 10px;
+  padding: 5px;
+  color: #fff;
 }
