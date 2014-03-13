@@ -32,7 +32,7 @@ The functionality list will continually be extended.
   <li>'who is typing' feature is also enabled</li>
 </ul>
 
-## Setup and configuration
+# Setup and configuration
 
 Make sure that you update <strong>app.js</strong> at the backend with your own IP address or hostname:
 <pre>app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
