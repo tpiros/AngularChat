@@ -48,7 +48,7 @@ To install the application execute <code>npm install</code>. This will also auto
 
 To launch the application please execute <code>node app.js</code>.
 
-For some background on the project, please read this article:
+For some background on the project, please read this article: http://tamas.io/angularchat/
 
 # Future
 
