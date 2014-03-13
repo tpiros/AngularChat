@@ -13,8 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "export HOME=/var/lib/openshift/532227e85973ca652100009e/app-root/runtime/repo; ./node_modules/bower/bin/bower install"
   },
   "repository": {
     "type": "git",
