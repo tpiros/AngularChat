@@ -9,7 +9,7 @@ app.constant('geolocation_msgs', {
 });
 
 app.factory('socket', function ($rootScope) {
-  var socket = io.connect("192.168.56.102:3000");
+  var socket = io.connect('192.168.56.102:3000');
   var disconnect = false;
   return {
     on: function (eventName, callback) {
@@ -57,10 +57,10 @@ app.factory('useragent', ['$q', '$rootScope', '$window', 'useragentmsgs', functi
       var deferred = $q.defer();
       var icon = '';
       if (ua.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {
-        icon = "mobile";
+        icon = 'mobile';
         deferred.resolve(icon);
       } else {
-        icon = "desktop"
+        icon = 'desktop';
         deferred.resolve(icon)
       }
       return deferred.promise;

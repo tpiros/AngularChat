@@ -1,11 +1,27 @@
 {
-    "name":  "chat-20",
-    "version": "0.0.1",
-    "dependencies": {
-        "bootstrap": "latest",
-        "jquery": "latest",
-        "typeahead.js": "latest",
-        "font-awesome": "latest"
-    },
-    "directory": "components"
+  "name": "AngularChat",
+  "version": "0.9",
+  "homepage": "https://github.com/tamaspiros/AngularChat",
+  "authors": [
+    "Tamas Piros <me@tamas.io>"
+  ],
+  "description": "Chat application using node.js, socket.io and AngularJS",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.10.0",
+    "angular": "~1.2.14",
+    "bootstrap": "*",
+    "font-awesome": "*",
+    "jquery": ">=1.9.0",
+    "underscore": "~1.6.0"
+  }
 }
