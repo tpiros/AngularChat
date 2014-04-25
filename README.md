@@ -36,7 +36,7 @@ The functionality list will continually be extended.
 
 Make sure that you update <strong>app.js</strong> at the backend with your own IP address or hostname:
 <pre>app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
-  app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || '192.168.56.102');
+app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || '192.168.56.102');
 </pre>
 
 Also, tell the frontend where to listen for socket.io - update <strong>public/js/services.js</strong>:
@@ -49,6 +49,10 @@ To install the application execute <code>npm install</code>. This will also auto
 To launch the application please execute <code>node app.js</code>.
 
 For some background on the project, please read this article: http://tamas.io/angularchat/
+
+# Demo
+
+For a working demo, please check: <a href="http://angularchat-tamasnode.rhcloud.com">http://angularchat-tamasnode.rhcloud.com</a>
 
 # Future
 
