@@ -13,7 +13,6 @@
   },
   "devDependencies": {},
   "scripts": {
-    "postinstall": "export HOME=/var/lib/openshift/532227e85973ca652100009e/app-root/runtime/repo; ./node_modules/bower/bin/bower install"
   },
   "repository": {
     "type": "git",

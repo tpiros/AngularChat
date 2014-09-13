@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/flags.css">
   <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css">
 </head>
-<body ng-controller="ChatAppCtrl">
+<body ng-controller="ChatAppCtrl" ng-cloak>
   <!-- Fixed navbar -->
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -30,17 +30,17 @@
           <li><a href="#" ng-click="about()">About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li ng-cloak><p class="navbar-text online" ng-if='status === "online"'>{{ status }}</p><p class="navbar-text offline" ng-if='status === "offline"'>{{ status }}</p></li>
-          <li class="dropdown" ng-show="joined" ng-cloak>
+          <li><p class="navbar-text online" ng-if='status === "online"'>{{ status }}</p><p class="navbar-text offline" ng-if='status === "offline"'>{{ status }}</p></li>
+          <li class="dropdown" ng-show="joined">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ peopleCount }} online <b class="caret" ng-if="peopleCount > 0"></b></a>
             <ul class="dropdown-menu">
-              <li ng-repeat="user in users" ng-cloak><p class="white">{{ user.name }} <span ng-if="user.countrycode"><img class="flag flag-{{user.countrycode}}"></span> <i class="fa fa-{{user.device}}"></i></p></li>
+              <li ng-repeat="user in users"><p class="white">{{ user.name }} <span ng-if="user.countrycode"><img class="flag flag-{{user.countrycode}}"></span> <i class="fa fa-{{user.device}}"></i></p></li>
             </ul>
           </li>
-          <li class="dropdown" ng-show="joined" ng-cloak>
+          <li class="dropdown" ng-show="joined">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ roomCount }} room<span ng-if="roomCount  === 0 || roomCount > 1">s</span> <b class="caret" ng-if="roomCount > 0"></b></a>
             <ul class="dropdown-menu">
-              <li ng-repeat="room in rooms" ng-cloak>
+              <li ng-repeat="room in rooms">
                 <form class="form-inline" role="form"><div class="form-group"><p class="white">{{ room.name }}</p></div><button class="btn btn-success btn-xs" type="submit" ng-click='joinRoom(room)' ng-hide='room.id === user.owns || room.id === user.inroom || user.owns || user.inroom'>Join</button>
                   <button type="submit" ng-click='deleteRoom(room)' class="btn btn-xs btn-danger" ng-show='room.id === user.owns'>Delete</button>
                   <button type="submit" ng-click="leaveRoom(room)" class="btn btn-xs btn-info" ng-hide='room.id === user.owns || !user.inroom || user.owns || user.inroom !== room.id'>Leave</button></form>
@@ -60,10 +60,10 @@
         </div>
         <button type="submit" class="btn btn-default btn-sm" ng-click='joinServer()'>Enter chat</button>
       </form>
-      <small ng-cloak ng-if="error" class="text-danger">{{ error.join }}</small> <small ng-cloak ng-if="suggestedUsername" class="text-info" ng-click="setUsername(suggestedUsername)">How about <span class="text-success" style="cursor: pointer;">{{ suggestedUsername }}</a>?</small>
+      <small  ng-if="error" class="text-danger">{{ error.join }}</small> <small  ng-if="suggestedUsername" class="text-info" ng-click="setUsername(suggestedUsername)">How about <span class="text-success" style="cursor: pointer;">{{ suggestedUsername }}</a>?</small>
     </div>
-    <div ng-hide="!joined" class="container" ng-cloak>
-      <p ng-cloak>Hello {{ user.name }}. <span ng-cloak ng-if="user.owns">You own a room: <strong>{{ user.roomname }}</strong>.</span> <span ng-cloak ng-if="!user.owns && user.inroom">You have joined a room: <strong>{{ user.roomname }}</strong>.<br> You can create your own room as well (but you need to leave the current one first)
+    <div ng-hide="!joined" class="container" >
+      <p >Hello {{ user.name }}. <span  ng-if="user.owns">You own a room: <strong>{{ user.roomname }}</strong>.</span> <span  ng-if="!user.owns && user.inroom">You have joined a room: <strong>{{ user.roomname }}</strong>.<br> You can create your own room as well (but you need to leave the current one first)
       </span><br>
       <small ng-if="user.owns">You can remove your room by clicking delete in drop-down menu in the top right corner.</small></p>
       <p ng-show="!user.inroom">Create a chat room or join one (top right corner).
@@ -74,10 +74,10 @@
               <input type="text" placeholder="Enter room name" class="form-control" ng-model="roomname" name="roomname" id="roomname">
             </div>
             <button type="submit" class="btn btn-default btn-sm" ng-click="createRoom()">Create room</button>
-            <small ng-cloak ng-if="error" class="text-danger">{{ error.create }}</small>
+            <small  ng-if="error" class="text-danger">{{ error.create }}</small>
           </form>
         </div>
-        <div id="chatpanel" ng-show="user.inroom" ng-cloak>
+        <div id="chatpanel" ng-show="user.inroom" >
           <div id="chat">
             <form class="form-inline" role="form" ng-show="user.owns || user.inroom">
               <div class="form-group">
@@ -86,21 +86,21 @@
               </div>
               <button type="submit" class="btn btn-default btn-sm" ng-click='send()'>Send message</button>
             </form>
-            <small ng-cloak ng-if="error" class="text-danger">{{ error.send }}</small>
+            <small  ng-if="error" class="text-danger">{{ error.send }}</small>
 
           </div>
           <div class="row">
             <div class="col-lg-6">
               <div id="messages">
                 <ul>
-                  <li class="list-unstyled" ng-repeat="message in messages track by $index" ng-cloak autoscroll ng-class="{dark: $index % 2 === 0}"><strong>{{ message.name }}</strong>: {{ message.message }}</li>
+                  <li class="list-unstyled" ng-repeat="message in messages track by $index"  autoscroll ng-class="{dark: $index % 2 === 0}"><strong>{{ message.name }}</strong>: {{ message.message }}</li>
                 </ul>
               </div>
             </div>
             <div class="col-lg-6">
               <div id="sidebar">
                 <ul ng-if="isTyping">
-                  <li ng-cloak ng-repeat="person in typingPeople track by $index" class="text-muted list-unstyled"><small>{{ person }} is typing</small></li>
+                  <li  ng-repeat="person in typingPeople track by $index" class="text-muted list-unstyled"><small>{{ person }} is typing</small></li>
                 </ul>
               </div>
             </div>
